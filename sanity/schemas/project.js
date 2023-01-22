@@ -2,6 +2,7 @@ export default {
   name: "project",
   title: "Project",
   type: "document",
+  i18n: true,
   fields: [
     {
       name: "title",

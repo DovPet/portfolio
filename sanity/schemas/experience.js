@@ -2,6 +2,7 @@ export default {
   name: "experience",
   title: "Experience",
   type: "document",
+  i18n: true,
   fields: [
     {
       name: "jobTitle",

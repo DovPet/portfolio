@@ -2,6 +2,7 @@ export default {
   name: "pageInfo",
   title: "PageInfo",
   type: "document",
+  i18n: true,
   fields: [
     {
       name: "name",
@@ -21,6 +22,11 @@ export default {
     {
       name: "backgroundInformation",
       title: "BackgroundInformation",
+      type: "text"
+    },
+    {
+      name: "backgroundInformationTitle",
+      title: "BackgroundInformationTitle",
       type: "string"
     },
     {

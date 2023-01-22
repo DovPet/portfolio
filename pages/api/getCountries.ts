@@ -1,21 +1,18 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { groq } from "next-sanity";
 import { sanityClient } from "../../sanity";
-import { PageInfo } from "../../typings";
+import { Country } from "../../typings";
 
 type Data = {
-  pageInfo: PageInfo;
+  countries: Country[];
 };
 
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<Data>
 ) {
-  const {
-    query: { lang }
-  } = req;
-  const pageInfo: PageInfo = await sanityClient.fetch(
-    groq`*[_type == "pageInfo" && __i18n_lang == '${lang}'][0]`
+  const countries: Country[] = await sanityClient.fetch(
+    groq`*[_type == "country"]`
   );
-  res.status(200).json({ pageInfo });
+  res.status(200).json({ countries });
 }

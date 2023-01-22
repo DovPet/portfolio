@@ -2,6 +2,7 @@ export default {
   name: "skill",
   title: "Skill",
   type: "document",
+  i18n: true,
   fields: [
     {
       name: "title",

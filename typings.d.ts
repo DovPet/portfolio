@@ -17,6 +17,7 @@ export interface PageInfo extends SanityBody {
   _type: "pageinfo";
   address: string;
   backgroundInformation: string;
+  backgroundInformationTitle: string
   email: string;
   role: string;
   heroImage: Image;
@@ -57,4 +58,10 @@ export interface Social extends SanityBody {
   _type: "social";
   title: string;
   url: string;
+}
+
+export interface Country extends SanityBody {
+  _type: "country";
+  locale: string;
+  countryImage: Image;
 }
