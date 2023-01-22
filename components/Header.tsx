@@ -109,8 +109,7 @@ function Header({ socials, countries, lang }: Props) {
             </p>
           </div>
         </Link>
-        <div
-          className="flex flex-row items-center">
+        <div className="flex flex-row items-center">
           {countryOptions && (
             <Select<CountrySelect>
               defaultValue={countryOptions.find((x) => x.value === lang)}

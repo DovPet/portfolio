@@ -81,7 +81,7 @@ const Home = ({
 
           <Header socials={socials} countries={countries} lang={lang} />
 
-          <section id="hero" className="snap-start min-h-max">
+          <section id="hero" className="min-h-max">
             <Hero pageInfo={pageInfo} />
           </section>
 
