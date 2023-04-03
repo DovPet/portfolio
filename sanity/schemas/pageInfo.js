@@ -5,19 +5,26 @@ export default {
   i18n: true,
   fields: [
     {
-      name: "name",
-      title: "Name",
+      name: "contactText",
+      title: "Contact Text",
       type: "string"
     },
     {
-      name: "role",
-      title: "Role",
-      type: "string"
+      name: "heroText",
+      title: "Hero Text",
+      type: "text"
     },
     {
-      name: "heroImage",
-      title: "HeroImage",
-      type: "image"
+      name: "typeOfWorks",
+      title: "Type of works",
+      type: "array",
+      of: [{ type: "string" }]
+    },
+    {
+      name: "navigationLinks",
+      title: "NavigationLinks",
+      type: "array",
+      of: [{ type: "string" }]
     },
     {
       name: "backgroundInformation",
@@ -57,6 +64,22 @@ export default {
       title: "Socials",
       type: "array",
       of: [{ type: "reference", to: { type: "social" } }]
-    }
+    },
+    {
+      name: "sections",
+      title: "Sections",
+      type: "array",
+      of: [{ type: "reference", to: { type: "section" } }]
+    },
+    {
+      name: "skillSectionHeader",
+      title: "SkillSectionHeader",
+      type: "string"
+    },
+    {
+      name: "contactSectionHeader",
+      title: "ContactSectionHeader",
+      type: "string"
+    },
   ]
 };

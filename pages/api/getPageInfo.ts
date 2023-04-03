@@ -15,7 +15,10 @@ export default async function handler(
     query: { lang }
   } = req;
   const pageInfo: PageInfo = await sanityClient.fetch(
-    groq`*[_type == "pageInfo" && __i18n_lang == '${lang}'][0]`
+    groq`*[_type == "pageInfo" && __i18n_lang == '${lang}']{
+      ...,
+      sections[] ->
+    }[0]`
   );
   res.status(200).json({ pageInfo });
 }

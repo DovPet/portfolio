@@ -10,6 +10,11 @@ export default {
       type: "string"
     },
     {
+      name: "experience",
+      title: "Experience",
+      type: "string"
+    },
+    {
       name: "progress",
       title: "Progress",
       type: "number",

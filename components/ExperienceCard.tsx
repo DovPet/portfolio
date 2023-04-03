@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import { Experience } from "../typings";
@@ -9,6 +9,16 @@ type Props = {
 };
 
 function ExperienceCard({ experience }: Props) {
+  const dateStarted = new Date(experience?.dateStarted);
+  const dateEnded = new Date(experience?.dateEnded);
+  
+
+  const [isEnglish, setIsEnglish] = useState(false)
+
+  useEffect(() => {
+    setIsEnglish(location?.href.includes("/en"));
+  },[])
+
   return (
     <article className="flex flex-col rounded-lg items-center space-y-7 flex-shrink-0 w-[400px] md:w-[500px] xl:w-[600px] px-12 md:px-0 p-10 bg-[#292929] hover:opacity-100 opacity-40 cursor-pointer transition-opacity duration-200 overflow-hidden">
       <div className="flex flex-col text-center w-full px-5">
@@ -22,7 +32,7 @@ function ExperienceCard({ experience }: Props) {
               viewport={{ once: true }}
             >
               <Image
-                className="rounded-full object-cover object-center"
+                className="object-center"
                 src={urlFor(experience?.companyImage).url()}
                 alt={experience?.company}
                 width={70}
@@ -30,7 +40,7 @@ function ExperienceCard({ experience }: Props) {
               />
             </motion.div>
             <motion.div
-              className="flex space-x-2 my-2 justify-center md:justify-start"
+              className="flex gap-2 my-2 justify-center md:justify-start"
               initial={{ opacity: 0, x: -200 }}
               whileInView={{ opacity: 1, x: 0 }}
               transition={{ duration: 1.5 }}
@@ -39,7 +49,7 @@ function ExperienceCard({ experience }: Props) {
               {experience?.technologies?.map((technology) => (
                 <Image
                   key={technology?._id}
-                  className="rounded-full"
+                  className="mx-2 object-contain"
                   src={urlFor(technology?.image).url()}
                   alt={technology?.title}
                   width={40}
@@ -48,20 +58,22 @@ function ExperienceCard({ experience }: Props) {
               ))}
             </motion.div>
           </div>
-          <div className="lg:max-w-[220px]">
+          <div className="lg:max-w-[250px]">
             <h4 className="text-4xl font-light">{experience?.jobTitle}</h4>
             <p className="text-2xl font-bold mt-1">{experience?.company}</p>
           </div>
         </div>
         <p className="uppercase py-5 text-gray-300">
-          {new Date(experience?.dateStarted).toDateString()} -{" "}
+          {`${dateStarted.getFullYear()}/${dateStarted.getMonth()} - `}
           {experience?.isCurrentlyWorkingHere
-            ? "Present"
-            : new Date(experience?.dateEnded).toDateString()}
+            ? isEnglish
+              ? "present"
+              : "dabar"
+            : `${dateEnded.getFullYear()}/${dateEnded.getMonth()}`}
         </p>
       </div>
-      <div>
-        <ul className="list-disc space-y-4 ml-5 text-lg h-96 overflow-y-scroll scrollbar-thin scrollbar-track-black scrollbar-thumb-[#F7AB0A]/80">
+      <div className="text-left">
+        <ul className="list-disc list-inside space-y-4 ml-5 text-lg h-96 overflow-y-scroll scrollbar-thin scrollbar-track-black scrollbar-thumb-[#F7AB0A]/80">
           {experience.points.map((point, i) => (
             <li key={i}>{point}</li>
           ))}

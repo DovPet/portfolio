@@ -6,26 +6,27 @@ import { urlFor } from "../../sanity";
 
 type Props = {
   projects: Project[];
+  sectionTitle: string | undefined;
 };
 
-function Projects({ projects }: Props) {
+function Projects({ projects, sectionTitle }: Props) {
   return (
     <motion.div
-      className="relative flex flex-row overflow-hidden text-left max-w-full justify-evenly mx-auto items-center z-0 mt-14"
+      className="relative flex flex-row overflow-hidden text-center max-w-full justify-evenly mx-auto items-center z-0 mt-14 smooth-scroll"
       initial={{ opacity: 0 }}
       whileInView={{ opacity: 1 }}
       transition={{ duration: 1.5 }}
     >
       <div className="titleContainer">
         <h3 className="title">
-          Projects
+          {sectionTitle}
         </h3>
 
-        <div className="relative w-full flex overflow-x-scroll overflow-y-hidden snap-x snap-mandatory snap-start z-20 scrollbar scrollbar-track-gray-400/20 scrollbar-thumb-[#F7AB0A]/80">
+        <div className="relative w-screen max-w-7xl flex overflow-x-scroll overflow-y-hidden snap-x snap-mandatory snap-start z-20 scrollbar scrollbar-track-gray-400/20 scrollbar-thumb-[#F7AB0A]/80">
           {projects?.map((project, i) => (
             <div
               key={project._id}
-              className="w-screen flex-shrink-0 snap-center flex flex-col space-y-5 items-center justify-center p-10 md:p-20"
+              className="w-7xl flex-shrink-0 snap-center flex flex-col space-y-5 items-center justify-center p-10 md:p-20"
             >
               <motion.img
                 initial={{ y: -100, opacity: 0 }}

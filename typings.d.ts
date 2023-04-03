@@ -17,20 +17,26 @@ export interface PageInfo extends SanityBody {
   _type: "pageinfo";
   address: string;
   backgroundInformation: string;
-  backgroundInformationTitle: string
+  backgroundInformationTitle: string;
   email: string;
-  role: string;
-  heroImage: Image;
   name: string;
   phoneNumber: string;
   profilePicture: Image;
+  heroText: string;
+  typeOfWorks: string[];
+  navigationLinks: string[];
+  contactText: string;
+  sections: Section[];
+  skillSectionHeader: string;
+  contactSectionHeader: string;
 }
 
 export interface Technology extends SanityBody {
   _type: "skill";
   image: Image;
-  progress: number;
+  experience: string;
   title: string;
+  progress: number;
 }
 
 export interface Experience extends SanityBody {
@@ -64,4 +70,10 @@ export interface Country extends SanityBody {
   _type: "country";
   locale: string;
   countryImage: Image;
+}
+
+export interface Section extends SanityBody {
+  _type: "section";
+  title: string;
+  text: string;
 }

@@ -3,6 +3,7 @@ import Head from "next/head";
 import { motion } from "framer-motion";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+import { ToastContainer } from "react-toastify";
 import About from "../../components/sections/About";
 import ContactMe from "../../components/sections/ContactMe";
 import WorkExperience from "../../components/sections/WorkExperience";
@@ -15,8 +16,9 @@ import {
   Experience,
   PageInfo,
   Project,
+  Section,
   Social,
-  Technology
+  Technology,
 } from "../../typings";
 import { fetchPageInfo } from "../../utils/fetchPageInfo";
 import { fetchSocials } from "../../utils/fetchSocials";
@@ -43,7 +45,7 @@ const Home = ({
   projects,
   socials,
   countries,
-  lang
+  lang,
 }: Props) => {
   const router = useRouter();
   const [loading, setLoading] = useState();
@@ -63,8 +65,11 @@ const Home = ({
     };
   });
 
+  const getSectionTitle = (sections: Section[], sectionName: string) => {
+    return sections.find(x => x.title === sectionName)?.text
+}
   return (
-    <div className="bg-[rgb(24,44,37)] text-white h-screen snap-y snap-mandaroty overflow-scroll z-0 overflow-y-scroll overflow-x-hidden scrollbar scrollbar-track-gray-400/20 scrollbar-thumb-[#F7AB0A]/80 scroll-smooth min-w-[370px]">
+    <div className="bg-[#1f2d3d] text-white overflow-scroll z-0 overflow-y-scroll overflow-x-hidden scrollbar min-w-[370px]">
       {loading ? (
         <Loader />
       ) : (
@@ -79,33 +84,34 @@ const Home = ({
             <link rel="icon" href="/favicon.ico" />
           </Head>
 
-          <Header socials={socials} countries={countries} lang={lang} />
+          <Header socials={socials} countries={countries} lang={lang} pageInfo={pageInfo}/>
 
-          <section id="hero" className="min-h-max">
+          <section id="hero" className="min-h-max pt-[210px]">
             <Hero pageInfo={pageInfo} />
           </section>
 
           <section id="about" className="snap-start">
-            <About pageInfo={pageInfo} />
+            <About pageInfo={pageInfo} sectionTitle={getSectionTitle(pageInfo?.sections, "about")}/>
           </section>
 
           <section id="experience" className="snap-start">
-            <WorkExperience experiences={experiences} />
+            <WorkExperience experiences={experiences} sectionTitle={getSectionTitle(pageInfo?.sections, "experience")}/>
           </section>
 
           <section id="skills" className="snap-start">
-            <Skills skills={skills} />
+            <Skills skills={skills} sectionTitle={getSectionTitle(pageInfo?.sections, "skills")} sectionHeader={pageInfo?.skillSectionHeader}/>
           </section>
 
           <section id="projects" className="snap-start">
-            <Projects projects={projects} />
+            <Projects projects={projects} sectionTitle={getSectionTitle(pageInfo?.sections, "projects")} />
           </section>
 
           <section id="contact">
-            <ContactMe />
+            <ContactMe sectionTitle={getSectionTitle(pageInfo?.sections, "contact")} sectionHeader={pageInfo?.contactSectionHeader}/>
           </section>
         </motion.div>
       )}
+      <ToastContainer />
     </div>
   );
 };
@@ -120,7 +126,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
   );
   return {
     paths: pathData,
-    fallback: true
+    fallback: true,
   };
 };
 
@@ -141,8 +147,8 @@ export const getStaticProps: GetStaticProps<Props> = async ({ params }) => {
       projects,
       socials,
       countries,
-      lang
+      lang,
     },
-    revalidate: 10
+    revalidate: 10,
   };
 };

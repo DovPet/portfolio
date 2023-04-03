@@ -2,40 +2,61 @@ import React from "react";
 import { motion } from "framer-motion";
 import { Technology } from "../typings";
 import { urlFor } from "../sanity";
-import Image from "next/image";
 
 type Props = {
-  directionLeft?: boolean;
+  customId: number;
   skill: Technology;
 };
 
-function Skill({ directionLeft, skill }: Props) {
+function Skill({ skill, customId }: Props) {
   return (
     <motion.div
-      className="group flex cursor-pointer rounded-full"
-      initial={{
-        x: directionLeft ? -100 : 100,
-        opacity: 0
+      className="group flex flex-row gap-4 items-center mx-6"
+      custom={customId}
+      variants={{
+        initial: {
+          opacity: 0,
+          y: 100,
+        },
+        visible: {
+          opacity: 1,
+          y: 0,
+          transition: {
+            delay: customId * 0.1,
+          },
+        },
       }}
-      transition={{
-        duration: 1
-      }}
-      whileInView={{
-        x: 0,
-        opacity: 1
-      }}
+      initial="initial"
+      animate="visible"
     >
-      <Image
-        className="relative rounded-full border border-gray-500 object-cover h-20 w-20 md:w-28 md:h-28 filter group-hover:grayscale transition duration-200 ease-in-out"
+      <img
+        className="object-contain h-10 w-10 md:w-14 md:h-14"
         src={urlFor(skill?.image).url()}
         alt={skill?.title}
-        layout='fill'
       />
-      <div className="absolute opacity-0 group-hover:opacity-80 transition duration-300 ease-in-out group-hover:bg-white h-20 w-20 md:w-28 md:h-28 rounded-full z-0">
-        <div className="flex items-center justify-center h-full">
-          <p className="text-3xl font-bold text-black opacity-100">
-            {skill?.progress}%
-          </p>
+      <div>
+        <div className="flex flex-row justify-between mb-2">
+          <div>{`${skill?.title} ${skill?.experience}`}</div>
+          <div>{`${skill?.progress}%`}</div>
+        </div>
+        <div className="relative w-72 sm:w-96 bg-white h-4 rounded-lg">
+          <motion.div
+            custom={customId}
+            variants={{
+              initial: {
+                width: 0,
+              },
+              animated: {
+                width: `${skill?.progress}%`,
+                transition: {
+                  delay: customId * 0.2,
+                },
+              },
+            }}
+            initial="initial"
+            whileInView="animated"
+            className="absolute h-4 bg-dark-green rounded-lg"
+          ></motion.div>
         </div>
       </div>
     </motion.div>

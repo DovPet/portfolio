@@ -1,36 +1,35 @@
 import React from "react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import Skill from "../Skill";
 import { Technology } from "../../typings";
 
 type Props = {
   skills: Technology[];
+  sectionTitle: string | undefined;
+  sectionHeader: string | undefined;
 };
 
-function Skills({ skills }: Props) {
+function Skills({ skills, sectionTitle, sectionHeader }: Props) {
   return (
     <motion.div
-      className="flex relative flex-col text-center md:text-left xl:flex-row max-w-[2000px] xl:px-10 min-h-screen justify-center xl:space-y-0 mx-auto items-center"
+      className="flex flex-col text-center md:text-left xl:flex-row max-w-7xl xl:px-10 justify-center xl:space-y-0 mx-auto items-center smooth-scroll"
       initial={{ opacity: 0 }}
       whileInView={{ opacity: 1 }}
       transition={{ duration: 1.5 }}
     >
       <div className="titleContainer">
-        <h3 className="title">
-          Skills
+        <h3 className="title">{sectionTitle}</h3>
+
+        <h3 className="uppercase tracking-[3px] text-gray-500 text-sm text-center">
+          {sectionHeader}
         </h3>
 
-        <h3 className="uppercase tracking-[3px] text-gray-500 text-sm mx-5">
-          Hover over a skill for current profieciency
-        </h3>
-
-        <div className="grid grid-cols-3 md:grid-cols-4 gap-5 mt-10">
-          {skills?.slice(0, skills.length / 2).map((skill) => (
-            <Skill key={skill?._id} skill={skill} />
-          ))}
-          {skills?.slice(skills.length / 2, skills.length).map((skill) => (
-            <Skill key={skill?._id} skill={skill} directionLeft />
-          ))}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 mt-10">
+          <AnimatePresence mode="sync">
+            {skills?.sort((a, b) => b.progress - a.progress).map((skill, i) => (
+              <Skill key={skill?._id} skill={skill} customId={i}/>
+            ))}
+          </AnimatePresence>
         </div>
       </div>
     </motion.div>
