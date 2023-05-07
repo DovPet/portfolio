@@ -1,6 +1,12 @@
 import Image from "next/image";
 import { motion } from "framer-motion";
 import React from "react";
+import { Navigation, Pagination, EffectCreative } from "swiper";
+import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
+import "swiper/css/effect-creative";
 import { Project } from "../../typings";
 import { urlFor } from "../../sanity";
 
@@ -12,57 +18,78 @@ type Props = {
 function Projects({ projects, sectionTitle }: Props) {
   return (
     <motion.div
-      className="relative flex flex-row overflow-hidden text-center max-w-full justify-evenly mx-auto items-center z-0 mt-14 smooth-scroll"
+      className="relative flex flex-row text-center justify-evenly items-center z-0 mt-14 smooth-scroll"
       initial={{ opacity: 0 }}
       whileInView={{ opacity: 1 }}
       transition={{ duration: 1.5 }}
     >
       <div className="titleContainer">
-        <h3 className="title">
-          {sectionTitle}
-        </h3>
+        <h3 className="title">{sectionTitle}</h3>
 
-        <div className="relative w-screen max-w-7xl flex overflow-x-scroll overflow-y-hidden snap-x snap-mandatory snap-start z-20 scrollbar scrollbar-track-gray-400/20 scrollbar-thumb-[#F7AB0A]/80">
+        <Swiper
+          className="max-w-7xl mx-auto"
+          pagination={{
+            type: "fraction"
+          }}
+          navigation={true}
+          modules={[Pagination, Navigation, EffectCreative]}
+          centeredSlides={true}
+          spaceBetween={30}
+          grabCursor={true}
+          effect={"creative"}
+          creativeEffect={{
+            prev: {
+              shadow: true,
+              origin: "left center",
+              translate: ["-5%", 0, -200],
+              rotate: [0, 100, 0],
+            },
+            next: {
+              origin: "right center",
+              translate: ["5%", 0, -200],
+              rotate: [0, -100, 0],
+            },
+          }}
+        >
           {projects?.map((project, i) => (
-            <div
-              key={project._id}
-              className="w-7xl flex-shrink-0 snap-center flex flex-col space-y-5 items-center justify-center p-10 md:p-20"
-            >
-              <motion.img
-                initial={{ y: -100, opacity: 0 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 1.2 }}
-                viewport={{ once: true }}
-                src={urlFor(project?.image).url()}
-                alt="Logo image"
-              />
-              <div className="space-y-10 px-0 md:px-10 max-w-6xl">
-                <h4 className="text-4-xl font-semibold text-center">
-                  <span>
-                    Project {i + 1} of {projects.length}:
-                  </span>{" "}
-                  {project?.title}
-                </h4>
-
-                <div className="flex items-center space-x-2 justify-center">
-                  {project?.technologies?.map((technology) => (
-                    <Image
-                      key={technology._id}
-                      src={urlFor(technology.image).url()}
-                      alt={technology.title}
-                      width={40}
-                      height={40}
-                      objectFit='contain'
-                    />
-                  ))}
+            <SwiperSlide key={project._id}>
+              <div className="max-w-6xl flex flex-row space-y-5 space-x-5 items-center mx-auto">
+                <motion.img
+                  initial={{ y: -100, opacity: 0 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 1.2 }}
+                  viewport={{ once: true }}
+                  src={urlFor(project?.image).url()}
+                  alt="Logo image"
+                  className="max-w-1/2"
+                />
+                <div className="flex flex-col max-w-1/2 space-y-4 px-0 md:px-10 max-w-xl">
+                  <h2 className="text-4xl font-semibold text-center">
+                    {project?.title}
+                  </h2>
+                  <a href={`${project.linkToBuild}`} target="blank">
+                    {project.linkToBuild}
+                  </a>
+                  <div className="flex items-center space-x-2 justify-center">
+                    {project?.technologies?.map((technology) => (
+                      <Image
+                        key={technology._id}
+                        src={urlFor(technology.image).url()}
+                        alt={technology.title}
+                        width={40}
+                        height={40}
+                        objectFit="contain"
+                      />
+                    ))}
+                  </div>
+                  <p className="text-lg text-center md:text-left">
+                    {project?.summary}
+                  </p>
                 </div>
-                <p className="text-lg text-center md:text-left">
-                  {project?.summary}
-                </p>
               </div>
-            </div>
+            </SwiperSlide>
           ))}
-        </div>
+        </Swiper>
       </div>
       <div className="w-full absolute top-[30%] bg-[#F7AB0A]/10 left-0 h-[500px] -skew-y-12"></div>
     </motion.div>

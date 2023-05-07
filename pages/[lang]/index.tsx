@@ -27,6 +27,7 @@ import { fetchExperience } from "../../utils/fetchExperiences";
 import { fetchSkills } from "../../utils/fetchSkills";
 import { fetchCountries } from "../../utils/fetchCountries";
 import Loader from "../../components/Loader";
+import Testimonials from "../../components/sections/Testimonials";
 
 type Props = {
   pageInfo: PageInfo;
@@ -104,6 +105,10 @@ const Home = ({
 
           <section id="projects" className="snap-start">
             <Projects projects={projects} sectionTitle={getSectionTitle(pageInfo?.sections, "projects")} />
+          </section>
+
+          <section id="testimonials" className="snap-start">
+            <Testimonials projects={projects} sectionTitle={getSectionTitle(pageInfo?.sections, "projects")} />
           </section>
 
           <section id="contact">
